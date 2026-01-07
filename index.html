@@ -12,6 +12,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #faf9f6;
+            color: #0f172a;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
@@ -22,11 +23,50 @@
         }
         
         @media print {
-            body { background-color: white !important; }
-            .no-print { display: none !important; }
-            #root { padding: 0 !important; margin: 0 !important; }
-            header, footer, button, .actions { display: none !important; }
-            main { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: none !important; }
+            @page {
+                margin: 2cm;
+                size: auto;
+            }
+            body { 
+                background-color: white !important; 
+                margin: 0;
+                padding: 0;
+            }
+            #root { 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+            .print\:hidden { 
+                display: none !important; 
+            }
+            header, footer, button, .actions, .no-print { 
+                display: none !important; 
+            }
+            main { 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                width: 100% !important; 
+                max-width: none !important; 
+            }
+            .bg-white { 
+                background-color: transparent !important; 
+            }
+            .shadow-xl, .shadow-sm, .shadow-md { 
+                box-shadow: none !important; 
+            }
+            .border { 
+                border-color: #e2e8f0 !important; 
+            }
+            /* Garantir que o conteúdo da receita ocupe a largura total */
+            #recipe-content {
+                border: none !important;
+                width: 100% !important;
+            }
+        }
+        
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
         }
     </style>
 <script type="importmap">

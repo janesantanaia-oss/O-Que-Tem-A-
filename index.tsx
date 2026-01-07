@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
@@ -45,6 +44,15 @@ const App = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Atualizar título da página para o nome da receita para facilitar salvamento em PDF
+  useEffect(() => {
+    if (recipe) {
+      document.title = `Receita - ${recipe.name}`;
+    } else {
+      document.title = "O Que Tem Aí? - Seu Chef Sem Frescura";
+    }
+  }, [recipe]);
 
   const startCamera = async () => {
     try {
@@ -203,7 +211,10 @@ const App = () => {
   };
 
   const printToPdf = () => {
-    window.print();
+    // Forçar um pequeno delay para garantir que o navegador processe qualquer mudança de estado antes de abrir o diálogo de impressão
+    setTimeout(() => {
+        window.print();
+    }, 50);
   };
 
   return (
@@ -384,6 +395,7 @@ const App = () => {
               <div className="grid grid-cols-3 gap-2 md:gap-4">
                 <button 
                   onClick={copyAsMarkdown}
+                  title="Copiar em Markdown (MD)"
                   className={`flex flex-col items-center justify-center gap-2 py-3 md:py-4 bg-white border border-gray-200 rounded-2xl font-bold text-[10px] md:text-xs transition-all shadow-sm ${copied ? 'text-green-600 bg-green-50 border-green-200' : 'text-gray-600 hover:bg-gray-50'}`}
                 >
                   {copied ? <CheckCircle2 size={18} md:size={20} /> : <FileText size={18} md:size={20} />}
@@ -395,7 +407,7 @@ const App = () => {
                   <span>Compartilhar</span>
                 </button>
 
-                <button onClick={printToPdf} className="flex flex-col items-center justify-center gap-2 py-3 md:py-4 bg-white border border-gray-200 rounded-2xl font-bold text-[10px] md:text-xs text-gray-600 hover:bg-gray-50 transition-all shadow-sm">
+                <button onClick={printToPdf} className="flex flex-col items-center justify-center gap-2 py-3 md:py-4 bg-white border border-gray-200 rounded-2xl font-bold text-[10px] md:text-xs text-gray-600 hover:bg-gray-50 transition-all shadow-sm active:bg-orange-50">
                   <Printer size={18} md:size={20} />
                   <span>PDF / Imprimir</span>
                 </button>
@@ -454,13 +466,6 @@ const App = () => {
       <footer className="mt-12 text-center text-gray-300 text-[10px] font-bold uppercase tracking-[0.2em] print:hidden px-4">
         Sem ingredientes extras • Sem complicação • Só o que tem aí
       </footer>
-
-      <style>{`
-        @keyframes scan {
-          0% { top: 0%; }
-          100% { top: 100%; }
-        }
-      `}</style>
     </div>
   );
 };
