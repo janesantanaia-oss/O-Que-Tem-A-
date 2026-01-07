@@ -1,0 +1,7 @@
+{
+  "description": "O Que Tem Aí? - Um app de IA que cria receitas reais usando apenas o que você já tem em casa. Sem listas de compras, sem complicações.",
+  "name": "O Que Tem Aí?",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
